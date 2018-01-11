@@ -30,6 +30,7 @@ public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
                 public void onError(String message) {
                     getView().onFailure(message);
                 }
+
             });
         }
     }

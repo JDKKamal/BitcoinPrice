@@ -4,9 +4,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 
+import com.jdkgroup.bitcoinprice.R;
 import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.interacter.disposablemanager.DisposableManager;
-import com.jdkgroup.model.Response;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -14,8 +14,6 @@ import java.net.UnknownHostException;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-
-import com.jdkgroup.bitcoinprice.R;
 
 /**
  * Created by Lakhani on 12/1/2017.
