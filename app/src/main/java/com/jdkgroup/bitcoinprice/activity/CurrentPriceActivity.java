@@ -44,6 +44,7 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
     LineChart lineChart;
 
     private XAxis xAxis;
+    private YAxis leftAxis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +53,50 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
 
         bindViews();
 
+        lineChartInit();
+        lineChartListener();
+        markerViewInit(R.layout.custom_marker_view);
+        AxisXYInit(XAxis.XAxisPosition.BOTTOM);
+        legendInit(Legend.LegendForm.LINE);
+
+        getPresenter().apiCurrentPrice(this);
+    }
+
+    private void lineChartListener() {
         lineChart.setOnChartGestureListener(this);
         lineChart.setOnChartValueSelectedListener(this);
+    }
+
+    private void lineChartInit() {
         lineChart.setDrawGridBackground(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.setTouchEnabled(true);
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setPinchZoom(true);
+        lineChart.getAxisRight().setEnabled(false); //TODO FIXED DISPLAY
+    }
 
-        MyMarkerView markerView = new MyMarkerView(this, R.layout.custom_marker_view);
+    private void markerViewInit(int layoutResource) {
+        MyMarkerView markerView = new MyMarkerView(this, layoutResource);
         markerView.setChartView(lineChart);
         lineChart.setMarker(markerView);
+    }
 
+    private void AxisXYInit(XAxis.XAxisPosition xAxisPosition) {
         xAxis = lineChart.getXAxis();
         xAxis.enableGridDashedLine(10f, 10f, 0f);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        YAxis leftAxis = lineChart.getAxisLeft();
+        xAxis.setPosition(xAxisPosition);
+
+        leftAxis = lineChart.getAxisLeft();
         leftAxis.removeAllLimitLines();
         leftAxis.setDrawZeroLine(false);
         leftAxis.setDrawLimitLinesBehindData(true);
-        lineChart.getAxisRight().setEnabled(false); //TODO FIXED DISPLAY
+    }
 
+    private void legendInit(Legend.LegendForm legendForm) {
         Legend legend = lineChart.getLegend();
-        legend.setForm(Legend.LegendForm.LINE);
-
-        getPresenter().apiCurrentPrice(this);
+        legend.setForm(legendForm);
     }
 
     @NonNull
@@ -103,6 +122,7 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
 
         int index = 0;
         for (Map.Entry<String, ModelBpiDetail> entry : response.getBpi().entrySet()) {
+
             listChartCurrentPrice.add(new ChartCurrentPrice(index, entry.getValue().getCode(), entry.getValue().getRate_float()));
             index++;
         }
@@ -163,26 +183,32 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
     }
 
     private void setData(List<ChartCurrentPrice> listChartCurrentPrice) {
-        List<String> listBottomValue = new ArrayList<>();
-        ArrayList<Entry> values = new ArrayList<>();
+        ArrayList<String> listBottomValue = new ArrayList<>();
+        ArrayList<Entry> listEntry = new ArrayList<>();
+
         for (int i = 0; i < listChartCurrentPrice.size(); i++) {
             ChartCurrentPrice chartCurrentPrice = listChartCurrentPrice.get(i);
-            values.add(new Entry(chartCurrentPrice.getIndex(), chartCurrentPrice.getRate_float()));
-
+            listEntry.add(new Entry(chartCurrentPrice.getIndex(), chartCurrentPrice.getRate_float()));
             listBottomValue.add(chartCurrentPrice.getCode());
         }
 
+        bottomValueSet(listBottomValue);
+        lineDataSetInit(listEntry);
+    }
+
+    private void bottomValueSet(ArrayList<String> listBottomValue) {
         Object[] bottomValue = listBottomValue.toArray();
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter((value, axis) -> bottomValue[(int) value % bottomValue.length].toString());
+    }
 
-
+    private void lineDataSetInit(ArrayList<Entry> listEntry) {
         LineDataSet lineDataSet;
         if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
             lineDataSet = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            lineDataSet.setValues(values);
+            lineDataSet.setValues(listEntry);
         } else {
-            lineDataSet = new LineDataSet(values, "Current Price");
+            lineDataSet = new LineDataSet(listEntry, "Current Price");
             lineDataSet.setDrawIcons(false);
 
             lineDataSet.enableDashedLine(10f, 5f, 0f);
@@ -205,14 +231,13 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
                 lineDataSet.setFillColor(Color.BLACK);
             }
 
-            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(lineDataSet);
+            ArrayList<ILineDataSet> listILineDataSet = new ArrayList<>();
+            listILineDataSet.add(lineDataSet);
 
-            LineData data = new LineData(dataSets);
+            LineData data = new LineData(listILineDataSet);
 
             // set data
             lineChart.setData(data);
         }
     }
-
 }
