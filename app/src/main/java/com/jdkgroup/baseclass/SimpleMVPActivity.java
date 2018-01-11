@@ -35,7 +35,7 @@ public abstract class SimpleMVPActivity<P extends BasePresenter<V>, V extends Ba
     }
 
     public boolean hasInternet() {
-        return hasInternet();
+        return isInternet();
     }
 
     public Activity getActivity() {

@@ -9,28 +9,28 @@ import com.jdkgroup.view.CurrentPriceView;
 
 public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
     public void apiCurrentPrice(final Activity activity) {
-        getAppInteractor().callApiCurrentPrice(activity, new InterActorCallback<MainCurrentPrice>() {
-            @Override
-            public void onStart() {
-                getView().showProgressDialog(true);
-            }
+        if (hasInternet()) {
+            getAppInteractor().callApiCurrentPrice(activity, new InterActorCallback<MainCurrentPrice>() {
+                @Override
+                public void onStart() {
+                    getView().showProgressDialog(true);
+                }
 
-            @Override
-            public void onResponse(MainCurrentPrice response) {
-                getView().callCurrentPrice(response);
-                getView().showProgressDialog(false);
-            }
+                @Override
+                public void onResponse(MainCurrentPrice response) {
+                    getView().callCurrentPrice(response);
+                }
 
-            @Override
-            public void onFinish() {
-                getView().showProgressDialog(false);
-            }
+                @Override
+                public void onFinish() {
+                    getView().showProgressDialog(false);
+                }
 
-            @Override
-            public void onError(String message) {
-                getView().onFailure(message);
-            }
-
-        });
+                @Override
+                public void onError(String message) {
+                    getView().onFailure(message);
+                }
+            });
+        }
     }
 }

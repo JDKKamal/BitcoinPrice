@@ -233,11 +233,7 @@ public abstract class BaseFragment extends Fragment {
         }
         return map;
     }
-
-    protected boolean hasInternetWithoutMessage() {
-        return hasInternet();
-    }
-
+    
     //TODO RECYCLERVIEW
     protected LinearLayoutManager setRecyclerView(RecyclerView recyclerView, int spanCount, int no) {
         switch (no) {
@@ -351,7 +347,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void intentOpenBrowser(final String url) {
-        if (hasInternet()) {
+        if (isInternet()) {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
             startActivity(intent);
@@ -360,7 +356,7 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected boolean hasInternet() {
+    protected boolean isInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {

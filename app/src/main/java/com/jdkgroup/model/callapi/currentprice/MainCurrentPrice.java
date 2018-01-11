@@ -15,7 +15,6 @@ public class MainCurrentPrice {
     @SerializedName("time")
     @Expose
     ModelTime time;
-
     @SerializedName("bpi")
     @Expose
     private Map<String, ModelBpiDetail> bpi;

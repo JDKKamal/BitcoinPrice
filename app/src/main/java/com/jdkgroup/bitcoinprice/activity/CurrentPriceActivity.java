@@ -59,7 +59,8 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
         AxisXYInit(XAxis.XAxisPosition.BOTTOM);
         legendInit(Legend.LegendForm.LINE);
 
-        getPresenter().apiCurrentPrice(this);
+            getPresenter().apiCurrentPrice(this);
+
     }
 
     private void lineChartListener() {

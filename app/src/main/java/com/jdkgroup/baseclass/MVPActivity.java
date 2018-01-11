@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.jdkgroup.utils.AppUtils;
-
-
 public abstract class MVPActivity<P extends BasePresenter<V>, V extends BaseView> extends BaseActivity {
 
     private P presenter;
@@ -34,10 +31,6 @@ public abstract class MVPActivity<P extends BasePresenter<V>, V extends BaseView
 
     public P getPresenter() {
         return presenter;
-    }
-
-    public boolean hasInternet() {
-        return hasInternet();
     }
 
     public Activity getActivity() {

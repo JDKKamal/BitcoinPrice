@@ -54,7 +54,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-
 public class AppUtils {
     private static String TAG = "Tag";
 
@@ -485,5 +484,4 @@ public class AppUtils {
             AppUtils.loge(pair.getKey() + " - " + pair.getValue());
         }
     }
-
 }

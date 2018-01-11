@@ -73,7 +73,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
@@ -275,10 +275,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public boolean hasInternetWithoutMessage() {
-        return hasInternet();
-    }
-
     protected void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
@@ -424,7 +420,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /* TODO LAUNCH ACTIVITY/FRAGMENT ANIMATION*/
     protected void intentOpenBrowser(final String url) {
-        if (hasInternet()) {
+        if (isInternet()) {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
             startActivity(intent);
@@ -433,7 +429,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean hasInternet() {
+    protected boolean isInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
@@ -444,18 +440,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected InputFilter decimalPointAfterBeforeAmount(final int maxDigitsBeforeDecimalPoint, final int maxDigitsAfterDecimalPoint) {
-        InputFilter filter = new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                StringBuilder builder = new StringBuilder(dest);
-                builder.replace(dstart, dend, source.subSequence(start, end).toString());
-                if (!builder.toString().matches("(([1-9]{1})([0-9]{0," + (maxDigitsBeforeDecimalPoint - 1) + "})?)?(\\.[0-9]{0," + maxDigitsAfterDecimalPoint + "})?")) {
-                    if (source.length() == 0)
-                        return dest.subSequence(dstart, dend);
-                    return "";
-                }
-                return null;
+        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
+            StringBuilder builder = new StringBuilder(dest);
+            builder.replace(dstart, dend, source.subSequence(start, end).toString());
+            if (!builder.toString().matches("(([1-9]{1})([0-9]{0," + (maxDigitsBeforeDecimalPoint - 1) + "})?)?(\\.[0-9]{0," + maxDigitsAfterDecimalPoint + "})?")) {
+                if (source.length() == 0)
+                    return dest.subSequence(dstart, dend);
+                return "";
             }
+            return null;
         };
 
         return filter;
