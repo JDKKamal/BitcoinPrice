@@ -1,0 +1,123 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:itemBackground">@color/colorSettingMenu</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="CircularProgressTransparent" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="CheckBoxTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorCheckBoxNormal</item>
+        <item name="colorControlActivated">@color/colorCheckBoxActive</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorDialogButtonText</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textAppearance">@style/TextSemiBoldSizeMedium</item>
+    </style>
+
+    <!--Font-->
+    <style name="FontRegular">
+        <item name="fontPath">@string/regular_font</item>
+    </style>
+
+    <style name="FontSemiBold">
+        <item name="fontPath">@string/semi_bold_font</item>
+    </style>
+
+    <style name="FontLight">
+        <item name="fontPath">@string/light_font</item>
+    </style>
+
+    <!--Tiny Text Sizes-->
+    <style name="TextRegularSizeTiny" parent="FontRegular">
+        <item name="android:textSize">@dimen/tiny_text</item>
+    </style>
+
+    <style name="TextSemiBoldSizeTiny" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/tiny_text</item>
+    </style>
+
+    <style name="TextLightSizeTiny" parent="FontLight">
+        <item name="android:textSize">@dimen/tiny_text</item>
+    </style>
+
+    <!--Small Text Sizes-->
+    <style name="TextRegularSizeSmall" parent="FontRegular">
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+
+    <style name="TextLightSizeSmall" parent="FontLight">
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+
+    <style name="TextSemiBoldSizeSmall" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+
+    <!--Medium Text Sizes-->
+    <style name="TextRegularSizeMedium" parent="FontRegular">
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
+    <style name="TextLightSizeMedium" parent="FontLight">
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
+    <style name="TextSemiBoldSizeMedium" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
+    <!--Regular Text Sizes-->
+    <style name="TextRegularSizeRegular" parent="FontRegular">
+        <item name="android:textSize">@dimen/regular_text</item>
+    </style>
+
+    <style name="TextLightSizeRegular" parent="FontLight">
+        <item name="android:textSize">@dimen/regular_text</item>
+    </style>
+
+    <style name="TextSemiBoldSizeRegular" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/regular_text</item>
+    </style>
+
+    <!--Large Text Sizes-->
+    <style name="TextLargeSizeRegular" parent="FontRegular">
+        <item name="android:textSize">@dimen/medium</item>
+    </style>
+
+    <style name="TextLargeLightSizeRegular" parent="FontLight">
+        <item name="android:textSize">@dimen/medium</item>
+    </style>
+
+    <style name="TextSemiBoldSizeLarge" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/medium</item>
+    </style>
+
+    <!--Extra Large Text Sizes-->
+    <style name="TextExtraLargeSizeRegular" parent="FontRegular">
+        <item name="android:textSize">@dimen/extraLarge</item>
+    </style>
+
+    <style name="TextExtraLargeLightSizeRegular" parent="FontLight">
+        <item name="android:textSize">@dimen/extraLarge</item>
+    </style>
+
+    <style name="TextSemiBoldSizeExtraLarge" parent="FontSemiBold">
+        <item name="android:textSize">@dimen/extraLarge</item>
+    </style>
+
+
+
+</resources>
