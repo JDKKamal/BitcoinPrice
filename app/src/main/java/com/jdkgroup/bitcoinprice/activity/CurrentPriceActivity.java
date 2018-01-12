@@ -54,6 +54,7 @@ public class CurrentPriceActivity extends SimpleMVPActivity<CurrentPricePresente
         bindViews();
 
         toolBar.setTitle("Current Price");
+        toolBarSetFont(toolBar);
 
         lineChartInit();
         lineChartListener();

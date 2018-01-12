@@ -17,6 +17,7 @@ public abstract class SimpleMVPActivity<P extends BasePresenter<V>, V extends Ba
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setSupportActionBar(toolBar);
 
         presenter = createPresenter();

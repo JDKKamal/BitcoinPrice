@@ -73,7 +73,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    protected void toolBarSetFont(final Toolbar toolBar) {
+    protected void toolBarSetFont(Toolbar toolBar) {
         for (int i = 0; i < toolBar.getChildCount(); i++) {
             View view = toolBar.getChildAt(i);
             if (view instanceof TextView) {
@@ -199,7 +199,7 @@ public class BaseActivity extends AppCompatActivity {
         return map;
     }
 
-    public void showProgressDialog(final boolean show) {
+    public void showProgressDialog(boolean show) {
         //Show Progress bar here
         if (show) {
             showProgressDialog();
@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showProgressToolBar(final boolean show, final View view) {
+    public void showProgressToolBar(boolean show, View view) {
         if (show) {
             progressToolbar.setVisibility(View.VISIBLE);
             if (view != null)
@@ -221,7 +221,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected final void showProgressDialog() {
+    protected void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new Dialog(this);
         } else {
@@ -248,7 +248,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * hide progress bar
      */
-    protected final void hideProgressDialog() {
+    protected void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
@@ -256,7 +256,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent(final Intent intent) {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
     }
@@ -271,7 +271,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void attachBaseContext(final Context newBase) {
+    protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
@@ -339,7 +339,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     //Parcel
-    protected void launchIsClearParcelable(final Class<?> classType, final Bundle bundle, final int status) {
+    protected void launchIsClearParcelable(Class<?> classType, Bundle bundle, int status) {
         intent = new Intent(this, classType);
         if (status == 0) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -348,7 +348,7 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void launchParcel(final Class<?> classType, final Bundle data, final int status) {
+    protected void launchParcel(Class<?> classType, Bundle data, int status) {
         intent = new Intent(getActivity(), classType);
         if (status == 0) {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -366,7 +366,7 @@ public class BaseActivity extends AppCompatActivity {
         return Parcels.unwrap(getActivity().getIntent().getParcelableExtra(bundleName));
     }
 
-    protected void launch(Class<?> classType, final Bundle bundle, int addFlag) {
+    protected void launch(Class<?> classType, Bundle bundle, int addFlag) {
         switch (addFlag) {
             case 1: //NO BUNDLE AND NO CLEAR
                 intent = new Intent(getActivity(), classType);
@@ -419,7 +419,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /* TODO LAUNCH ACTIVITY/FRAGMENT ANIMATION*/
-    protected void intentOpenBrowser(final String url) {
+    protected void intentOpenBrowser(String url) {
         if (isInternet()) {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
@@ -439,7 +439,7 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    protected InputFilter decimalPointAfterBeforeAmount(final int maxDigitsBeforeDecimalPoint, final int maxDigitsAfterDecimalPoint) {
+    protected InputFilter decimalPointAfterBeforeAmount(int maxDigitsBeforeDecimalPoint, int maxDigitsAfterDecimalPoint) {
         InputFilter filter = (source, start, end, dest, dstart, dend) -> {
             StringBuilder builder = new StringBuilder(dest);
             builder.replace(dstart, dend, source.subSequence(start, end).toString());
@@ -511,7 +511,7 @@ public class BaseActivity extends AppCompatActivity {
         return mapLetter;
     }
 
-    protected String readFileFromAssets(final String fileName, final String extension) throws Exception {
+    protected String readFileFromAssets(String fileName, String extension) throws Exception {
         String str = null;
         try {
             InputStream is = getActivity().getAssets().open("json/" + fileName + "." + extension);
@@ -527,7 +527,7 @@ public class BaseActivity extends AppCompatActivity {
         return str;
     }
 
-    private JSONObject mapConvertToJSON(final Map map) {
+    private JSONObject mapConvertToJSON(Map map) {
         JSONObject jsonobject = new JSONObject();
         try {
             Iterator iterator = map.entrySet().iterator();
