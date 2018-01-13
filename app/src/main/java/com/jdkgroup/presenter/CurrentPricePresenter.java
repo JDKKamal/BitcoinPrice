@@ -1,16 +1,14 @@
 package com.jdkgroup.presenter;
 
-import android.app.Activity;
-
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
 import com.jdkgroup.view.CurrentPriceView;
 
 public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
-    public void apiCurrentPrice(final Activity activity) {
+    public void apiCurrentPrice() {
         if (hasInternet()) {
-            getAppInteractor().callApiCurrentPrice(activity, new InterActorCallback<MainCurrentPrice>() {
+            getAppInteractor().callApiCurrentPrice(getView().getActivity(), new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
                     getView().showProgressDialog(true);

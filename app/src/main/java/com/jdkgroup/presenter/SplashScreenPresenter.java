@@ -1,6 +1,5 @@
 package com.jdkgroup.presenter;
 
-import android.app.Activity;
 import android.os.Handler;
 
 import com.jdkgroup.baseclass.BasePresenter;
@@ -10,12 +9,12 @@ import com.jdkgroup.utils.PreferenceUtils;
 import com.jdkgroup.view.SplashScreenView;
 
 public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
-    public void getSplashScreenWait(int timeOut, final Activity activity) {
+    public void getSplashScreenWait(int timeOut) {
         new Handler().postDelayed(() -> {
-            PreferenceUtils.getInstance(activity).setIsLogin(true);
+            PreferenceUtils.getInstance(getView().getActivity()).setIsLogin(true);
 
-            AppUtils.startActivity(activity, CurrentPriceHalfPieActivity.class);
-            activity.finish();
+            AppUtils.startActivity(getView().getActivity(), CurrentPriceHalfPieActivity.class);
+            getView().getActivity().finish();
 
         }, timeOut);
     }

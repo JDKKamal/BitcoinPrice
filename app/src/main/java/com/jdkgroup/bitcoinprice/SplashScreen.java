@@ -28,7 +28,7 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
 
         if (PreferenceUtils.getInstance(this).isLogin() == false) {
             //TODO SPLASH SCREEN TIME OUT
-            getPresenter().getSplashScreenWait(SPLASH_TIME_OUT, this);
+            getPresenter().getSplashScreenWait(SPLASH_TIME_OUT);
         } else {
             AppUtils.startActivity(getActivity(), CurrentPriceHalfPieActivity.class);
             finish();

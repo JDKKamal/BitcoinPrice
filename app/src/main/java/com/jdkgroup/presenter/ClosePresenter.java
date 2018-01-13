@@ -1,16 +1,14 @@
 package com.jdkgroup.presenter;
 
-import android.app.Activity;
-
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.model.callapi.close.MainClose;
 import com.jdkgroup.view.CloseView;
 
 public class ClosePresenter extends BasePresenter<CloseView> {
-    public void apiClose(final Activity activity) {
+    public void apiClose() {
         if (hasInternet()) {
-            getAppInteractor().callApiClose(activity, new InterActorCallback<MainClose>() {
+            getAppInteractor().callApiClose(getView().getActivity(), new InterActorCallback<MainClose>() {
                 @Override
                 public void onStart() {
                     getView().showProgressDialog(true);

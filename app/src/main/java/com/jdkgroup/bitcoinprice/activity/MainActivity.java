@@ -16,7 +16,7 @@ public class MainActivity extends SimpleMVPActivity<CurrentPricePresenter, Curre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_price);
 
-        getPresenter().apiCurrentPrice(this);
+        getPresenter().apiCurrentPrice();
     }
 
     @NonNull

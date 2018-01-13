@@ -10,7 +10,6 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 
-import com.jdkgroup.connection.RestClient;
 import com.jdkgroup.constant.RestConstant;
 import com.jdkgroup.interacter.operators.RxAPICallDisposingObserver;
 import com.jdkgroup.model.ModelOSInfo;
@@ -19,12 +18,9 @@ import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
 import com.jdkgroup.model.supportedcurrencies.ModelCurrencyDetail;
 import com.jdkgroup.utils.AppUtils;
 
-import org.reactivestreams.Subscriber;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -92,28 +88,28 @@ public class AppInteractor implements RestConstant{
     //TODO CALL API
     public void callApiCurrentPrice(Context context, InterActorCallback<MainCurrentPrice> callback) {
         observable =  restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE);
-        toSubscribe(context, callback, observable);
+        toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiClose(Context context, InterActorCallback<MainClose> callback) {
         observable =   restInstance(context, REQUEST_NO_AUTH).getService().apiGetClose(BASE_URL + API_GET_CLOSE);
-        toSubscribe(context, callback, observable);
+        toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiCurrency(Context context, InterActorCallback<List<ModelCurrencyDetail>> callback) {
         observable = restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrency(BASE_URL + API_GET_SUPPORTED_CURRENCIES);
-        toSubscribe(context, callback, observable);
+        toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiCurrentPriceWithCurrency(Context context, String currency, InterActorCallback<MainCurrentPrice> callback) {
         observable = restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE_WITH_CURRENCY +"/"+ currency + ".json");
-        toSubscribe(context, callback, observable);
+        toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
-    private <T> void toSubscribe(Context context, InterActorCallback<T> callback, Observable<T> observable) {
+    private void toSubscribe(RxAPICallDisposingObserver rxAPICallDisposingObserver) {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxAPICallDisposingObserver(context, callback));
+                .subscribe(rxAPICallDisposingObserver);
     }
 }
 

@@ -1,7 +1,5 @@
 package com.jdkgroup.presenter;
 
-import android.app.Activity;
-
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
@@ -11,9 +9,9 @@ import com.jdkgroup.view.CurrencyView;
 import java.util.List;
 
 public class CurrencyPresenter extends BasePresenter<CurrencyView> {
-    public void apiCurrency(final Activity activity) {
+    public void apiCurrency() {
         if (hasInternet()) {
-            getAppInteractor().callApiCurrency(activity, new InterActorCallback<List<ModelCurrencyDetail>>() {
+            getAppInteractor().callApiCurrency(getView().getActivity(), new InterActorCallback<List<ModelCurrencyDetail>>() {
                 @Override
                 public void onStart() {
                     getView().showProgressDialog(true);
@@ -38,9 +36,9 @@ public class CurrencyPresenter extends BasePresenter<CurrencyView> {
         }
     }
 
-    public void apiCurrentPriceWithCurrency(final Activity activity, String currency) {
+    public void apiCurrentPriceWithCurrency(String currency) {
         if (hasInternet()) {
-            getAppInteractor().callApiCurrentPriceWithCurrency(activity, currency, new InterActorCallback<MainCurrentPrice>() {
+            getAppInteractor().callApiCurrentPriceWithCurrency(getView().getActivity(), currency, new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
                     getView().showProgressDialog(true);

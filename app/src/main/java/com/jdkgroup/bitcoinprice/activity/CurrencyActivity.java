@@ -64,7 +64,7 @@ public class CurrencyActivity extends SimpleMVPActivity<CurrencyPresenter, Curre
         pieChartInit();
         legendInit();
 
-        getPresenter().apiCurrency(this);
+        getPresenter().apiCurrency();
     }
 
     @NonNull
@@ -220,7 +220,7 @@ public class CurrencyActivity extends SimpleMVPActivity<CurrencyPresenter, Curre
                     selectedCurrency = (ModelCurrencyDetail) object;
                     appEdtCurrency.setText(selectedCurrency.getCountry());
 
-                    getPresenter().apiCurrentPriceWithCurrency(getActivity(), selectedCurrency.getCurrency());
+                    getPresenter().apiCurrentPriceWithCurrency(selectedCurrency.getCurrency());
                 }
             }, listCurrencyDetail);
             sd.show();

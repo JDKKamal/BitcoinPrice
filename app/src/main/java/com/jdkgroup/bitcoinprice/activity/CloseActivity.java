@@ -39,7 +39,7 @@ public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> 
 
         setRecyclerView(recyclerView, 0, recyclerViewLinearLayout);
 
-        getPresenter().apiClose(this);
+        getPresenter().apiClose();
     }
 
     @NonNull
@@ -74,6 +74,6 @@ public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> 
 
     @OnClick(R.id.appBtnRefresh)
     public void onViewClicked() {
-        getPresenter().apiClose(this);
+        getPresenter().apiClose();
     }
 }

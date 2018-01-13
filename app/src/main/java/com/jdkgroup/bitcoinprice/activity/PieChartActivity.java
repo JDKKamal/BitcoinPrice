@@ -52,7 +52,7 @@ public class PieChartActivity extends SimpleMVPActivity<CurrentPricePresenter, C
         pieChartInit();
         legendInit();
 
-        getPresenter().apiCurrentPrice(this);
+        getPresenter().apiCurrentPrice();
     }
 
     public void pieChartInit()
