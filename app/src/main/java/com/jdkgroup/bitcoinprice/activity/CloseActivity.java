@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> implements CloseView {
@@ -32,7 +31,6 @@ public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_close);
-        ButterKnife.bind(this);
 
         bindViews();
         toolBar.setTitle("Close");

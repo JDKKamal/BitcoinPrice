@@ -1,5 +1,11 @@
 package com.jdkgroup.baseclass;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+/*
+  * THAT CLASS USE EXTEND Activity OR AppCompatActivity, WHEN PROGRAMMER LOGIC, API CALL, DATABASE etc. WRITE CODE IN AppInteractor.java class.
+  * SimpleMVPActivity<P, V> implements V
+*/
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

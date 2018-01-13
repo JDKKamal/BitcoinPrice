@@ -1,8 +1,9 @@
 package com.jdkgroup.baseclass;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -11,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -43,9 +43,10 @@ import android.widget.LinearLayout;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jdkgroup.interacter.disposablemanager.DisposableManager;
 import com.jdkgroup.bitcoinprice.R;
+import com.jdkgroup.interacter.disposablemanager.DisposableManager;
 import com.jdkgroup.utils.AppUtils;
+import com.jdkgroup.utils.Logging;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -63,7 +64,6 @@ import java.util.UUID;
 public abstract class BaseFragment extends Fragment {
 
     private Dialog progressDialog;
-    private Intent intent;
     private HashMap<String, String> params;
     private Calendar calendar;
 
@@ -132,23 +132,23 @@ public abstract class BaseFragment extends Fragment {
         return new int[]{size.x, size.y};
     }
 
-    protected void showKeyboard(Activity activity, AppCompatEditText appCompatEditText) {
-        Context context = activity;
+    protected void showKeyboard( AppCompatEditText appCompatEditText) {
         try {
-            if (context != null) {
-                InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (getActivity() != null) {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.showSoftInput(appCompatEditText, InputMethodManager.SHOW_IMPLICIT);
             }
         } catch (Exception e) {
-           AppUtils.loge("Exception on show " + e.toString());
+            Logging.e("Exception on show " + e.toString());
         }
     }
 
-    public void requestEditTextFocus(Activity activity, AppCompatEditText view) {
+    public void requestEditTextFocus(AppCompatEditText view) {
         view.requestFocus();
-        showKeyboard(activity, view);
+        showKeyboard(view);
     }
 
+    /*TODO PROGRESSBAR*/
     public void showProgressDialog(boolean show) {
         //Show Progress bar here
         if (show) {
@@ -158,7 +158,6 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    /*TODO PROGRESSBAR*/
     //SHOW PROGRESSBAR
     protected final void showProgressBar() {
         if (progressDialog == null) {
@@ -183,29 +182,20 @@ public abstract class BaseFragment extends Fragment {
         progressDialog.show();
     }
 
-    public void showProgressToolBar(boolean show, View view) {
-        //      ((BaseActivity)getActivity()).showProgressToolBar(show,view);
-
-    }
-
-    public void onAuthenticationFailure(String msg) {
-        // logoutUser(msg);
-    }
-
-    //HIDE PROGRESSBAR
-    protected final void hideProgressBar() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
-    }
-
     //HIDE PROGRESSBAR
     protected final void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    public void showProgressToolBar(boolean show, View view) {
+        // ((BaseActivity)getActivity()).showProgressToolBar(show,view);
+    }
+
+    public void onAuthenticationFailure(String msg) {
+        // logoutUser(msg);
     }
 
     public static void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
@@ -233,7 +223,7 @@ public abstract class BaseFragment extends Fragment {
         }
         return map;
     }
-    
+
     //TODO RECYCLERVIEW
     protected LinearLayoutManager setRecyclerView(RecyclerView recyclerView, int spanCount, int no) {
         switch (no) {
@@ -276,17 +266,14 @@ public abstract class BaseFragment extends Fragment {
     protected Gson switchGson(int param) {
         switch (param) {
             case 1:
-                Gson gson = new GsonBuilder().create();
-                return gson;
+                return new GsonBuilder().create();
 
             case 2: //FIRST CHARACTER UPPER CAMEL
-                gson = new GsonBuilder().
+                return new GsonBuilder().
                         disableHtmlEscaping().
                         setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).
                         setPrettyPrinting().serializeNulls().
                         create();
-                return gson;
-
             default:
                 break;
         }
@@ -301,29 +288,19 @@ public abstract class BaseFragment extends Fragment {
     protected void launch(Class<?> classType, final Bundle bundle, int addFlag) {
         switch (addFlag) {
             case 1: //NO BUNDLE AND NO CLEAR
-                intent = new Intent(getActivity(), classType);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(), classType).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 break;
 
             case 2: //NO BUNDLE AND CLEAR ALL HISTORY
-                intent = new Intent(getActivity(), classType);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivity( new Intent(getActivity(), classType).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
 
             case 3: //BUNDLE AND NO CLEAR
-                intent = new Intent(getActivity(), classType);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+                startActivity( new Intent(getActivity(), classType).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT).putExtra("bundle", bundle));
                 break;
 
             case 4: //BUNDLE AND CLEAR ALL HISTORY
-                intent = new Intent(getActivity(), classType);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+                startActivity( new Intent(getActivity(), classType).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("bundle", bundle));
                 break;
         }
     }
@@ -348,9 +325,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected void intentOpenBrowser(final String url) {
         if (isInternet()) {
-            intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            startActivity(intent);
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
         } else {
             AppUtils.showToast(getActivity(), getString(R.string.no_internet_message));
         }
@@ -453,28 +428,22 @@ public abstract class BaseFragment extends Fragment {
     }
 
     //For take screenshot without status bar return Bitmap
-    protected Bitmap nbGetScreenShotWithoutStatusBar(Activity activity) {
-        View view = activity.getWindow().getDecorView();
+    protected Bitmap nbGetScreenShotWithoutStatusBar() {
+        View view = getActivity().getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         Bitmap bmp = view.getDrawingCache();
         Rect frame = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
-        int width = getScreenSize(activity)[0];
-        int height = getScreenSize(activity)[1];
-        Bitmap bp = null;
-        bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
-        return bp;
+        return Bitmap.createBitmap(bmp, 0, statusBarHeight, getScreenSize( getActivity())[0], getScreenSize( getActivity())[1] - statusBarHeight);
     }
 
     //For Get the screen dimensions
     private int[] getScreenSize() {
         Point size = new Point();
-        WindowManager w = getActivity().getWindowManager();
-
-        w.getDefaultDisplay().getSize(size);
+        getActivity().getWindowManager().getDefaultDisplay().getSize(size);
         return new int[]{size.x, size.y};
     }
 

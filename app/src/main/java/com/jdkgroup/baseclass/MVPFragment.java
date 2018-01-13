@@ -1,5 +1,14 @@
 package com.jdkgroup.baseclass;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+/*
+  * P - PRESENTER
+  * V - VIEW
+  * EXTENDS BASEFRAGMENT
+  * THAT CLASS USE EXTEND fragment, WHEN PROGRAMMER LOGIC, API CALL, DATABASE etc. WRITE CODE IN AppInteractor.java class.
+  * MVPFragment<P, V> implements V
+*/
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

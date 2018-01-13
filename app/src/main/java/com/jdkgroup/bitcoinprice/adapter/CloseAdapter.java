@@ -50,7 +50,6 @@ public class CloseAdapter extends BaseRecyclerView<ModelBpiDetail> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-
         }
 
         @Override

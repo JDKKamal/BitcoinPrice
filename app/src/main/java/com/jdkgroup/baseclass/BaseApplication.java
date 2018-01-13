@@ -1,9 +1,16 @@
 package com.jdkgroup.baseclass;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+/* BASEAPPLICATION
+   *  SET MULTIDEX, LOOGING, CALLINGGRAPHY (FONT)
+   *  REALM (DATABASE)
+*/
+
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.jdkgroup.bitcoinprice.R;
+import com.jdkgroup.utils.Logging;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -19,6 +26,7 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
+        Logging.setDebugLogging(Logging.isDebugLogging());
         baseApplication = this;
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

@@ -1,5 +1,12 @@
 package com.jdkgroup.baseclass;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+/*
+   * P - PRESENTER
+   * V - VIEW
+   * EXTENDS BASEACTIVITY
+* */
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

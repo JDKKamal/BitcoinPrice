@@ -1,5 +1,10 @@
 package com.jdkgroup.interacter;
 
+//TODO DEVELOPED BY KAMLESH LAKHANI
+/*
+  * TODO COMMON LOGIC API CALL, DATABASE ETC.
+*/
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -16,7 +21,7 @@ import com.jdkgroup.model.ModelOSInfo;
 import com.jdkgroup.model.callapi.close.MainClose;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
 import com.jdkgroup.model.supportedcurrencies.ModelCurrencyDetail;
-import com.jdkgroup.utils.AppUtils;
+import com.jdkgroup.utils.Logging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -73,7 +78,7 @@ public class AppInteractor implements RestConstant{
                 md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 String facebookKeyBase64 = new String(Base64.encode(md.digest(), 0));
-                AppUtils.loge(facebookKeyBase64);
+                Logging.i(facebookKeyBase64);
                 //String facebookkeyBase64new = new String(Base64.encodeBytes(md.digest()));
             }
         } catch (PackageManager.NameNotFoundException e1) {

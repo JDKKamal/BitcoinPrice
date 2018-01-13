@@ -55,8 +55,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 public class AppUtils {
-    private static String TAG = "Tag";
-
     private static JSONObject jsonobject;
     private static Iterator iterator;
 
@@ -88,14 +86,6 @@ public class AppUtils {
 
     public static void toast(Context context, int message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public static void logD(String text) {
-        Log.d(TAG, text);
-    }
-
-    public static void loge(String text) {
-        Log.e(TAG, text);
     }
 
     private static String convertToHex(byte[] data) {
@@ -481,7 +471,7 @@ public class AppUtils {
         Iterator it = hashMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            AppUtils.loge(pair.getKey() + " - " + pair.getValue());
+            Logging.i(pair.getKey() + " - " + pair.getValue());
         }
     }
 }

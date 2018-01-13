@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.jdkgroup.baseclass.BaseApplication;
 import com.jdkgroup.constant.RestConstant;
 import com.jdkgroup.utils.AppUtils;
+import com.jdkgroup.utils.Logging;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -89,7 +90,7 @@ public class RestClient implements RestConstant {
                 Request request = requestBuilder.build();
                 Response response = chain.proceed(request);
 
-                AppUtils.logD("API Call " + response + "");
+                Logging.i("API Call " + response + "");
 
                 if (response.isSuccessful()) {
                     String data = response.body().string();
