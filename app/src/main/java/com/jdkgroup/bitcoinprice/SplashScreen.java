@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.jdkgroup.baseclass.SimpleMVPActivity;
-import com.jdkgroup.bitcoinprice.activity.CurrentPriceActivity;
+import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
 import com.jdkgroup.interacter.AppInteractor;
 import com.jdkgroup.presenter.SplashScreenPresenter;
 import com.jdkgroup.utils.AppUtils;
@@ -30,7 +30,7 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
             //TODO SPLASH SCREEN TIME OUT
             getPresenter().getSplashScreenWait(SPLASH_TIME_OUT, this);
         } else {
-            AppUtils.startActivity(getActivity(), CurrentPriceActivity.class);
+            AppUtils.startActivity(getActivity(), CurrentPriceHalfPieActivity.class);
             finish();
         }
     }

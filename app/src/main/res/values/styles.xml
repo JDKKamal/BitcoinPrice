@@ -118,6 +118,12 @@
         <item name="android:textSize">@dimen/extraLarge</item>
     </style>
 
-
+    <style name="styleEditText" parent="TextLargeSizeRegular">
+        <item name="android:background">@drawable/style_edittext</item>
+        <item name="android:textColorHint">@color/colorHintEditText</item>
+        <item name="android:textColor">@color/colorNormalEditText</item>
+        <item name="android:paddingTop">@dimen/regularSmall</item>
+        <item name="android:paddingBottom">@dimen/regularSmall</item>
+    </style>
 
 </resources>

@@ -1,8 +1,11 @@
 package com.jdkgroup.connection;
 
+import com.jdkgroup.model.callapi.close.MainClose;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
+import com.jdkgroup.model.supportedcurrencies.ModelCurrencyDetail;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -28,6 +31,12 @@ public interface RestService {
 
     @GET
     Observable<MainCurrentPrice> apiGetCurrentPrice(@Url String url);
+
+    @GET
+    Observable<MainClose> apiGetClose(@Url String url);
+
+    @GET
+    Observable<List<ModelCurrencyDetail>> apiGetCurrency(@Url String url);
 
     @FormUrlEncoded
     @PUT

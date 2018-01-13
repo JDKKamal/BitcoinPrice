@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small"
+        android:background="@drawable/style_refresh"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/appEdtCurrency"
+            style="@style/styleEditText"
+            android:layout_width="match_parent"
+            android:paddingLeft="@dimen/small"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions|none"
+            android:layout_toLeftOf="@+id/appIvArrowCountry"
+            android:background="@null"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:hint="@string/hint_currency"
+            android:lines="1" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/appIvArrowCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/small"
+            android:src="@drawable/ic_expand_more" />
+
+    </RelativeLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

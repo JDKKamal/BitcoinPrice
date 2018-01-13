@@ -1,9 +1,10 @@
-package com.jdkgroup.bitcoinprice;
+package com.jdkgroup.bitcoinprice.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.jdkgroup.baseclass.SimpleMVPActivity;
+import com.jdkgroup.bitcoinprice.R;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
 import com.jdkgroup.presenter.CurrentPricePresenter;
 import com.jdkgroup.view.CurrentPriceView;

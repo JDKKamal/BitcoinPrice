@@ -2,28 +2,33 @@ package com.jdkgroup.constant;
 
 public interface RestConstant {
 
-    public final String BASE_URL = "https://api.coindesk.com/v1/bpi/";
-    public final String IMAGE_URL = "";
+    //BROWSER URL https://www.coindesk.com/api/
 
-    public final String API_GET_CURRENT_PRICE = "currentprice.json";
+    String BASE_URL = "https://api.coindesk.com/v1/bpi/";
+    String IMAGE_URL = "";
 
-    public final int REQUEST_AUTH = 1;
-    public final int REQUEST_NO_AUTH = 0;
+    String API_GET_CURRENT_PRICE = "currentprice.json";
+    String API_GET_CLOSE = "historical/close.json";
+    String API_GET_SUPPORTED_CURRENCIES = "supported-currencies.json";
+    String API_GET_CURRENT_PRICE_WITH_CURRENCY = "currentprice";
+
+    int REQUEST_AUTH = 1;
+    int REQUEST_NO_AUTH = 0;
 
     /* DB STATUS */
-    public final int TYPE_DELETION = 0;
-    public final int TYPE_INSERTION = 1;
-    public final int TYPE_MODIFICATION = 2;
+    int TYPE_DELETION = 0;
+    int TYPE_INSERTION = 1;
+    int TYPE_MODIFICATION = 2;
 
     /* ERROR CODE */
-    public int ERROR_SERVICE_UNAVAILABLE = 503;
-    public int ERROR_INTERNAL_SERVER = 500;
-    public int ERROR_BAD_Gateway = 502;
-    public int ERROR_NOT_FOUND = 404;
-    public int ERROR_Forbidden = 403;
-    public int ERROR_PRECONDITION_FAILED = 403;
-    public int ERROR_OK = 200;
-    public int ERROR_No_Content = 204;
-    public int ERROR_Method_Not_Allowed = 405;
-    public int ERROR_RESPONSE_ERROR = 400;
+    int ERROR_SERVICE_UNAVAILABLE = 503;
+    int ERROR_INTERNAL_SERVER = 500;
+    int ERROR_BAD_Gateway = 502;
+    int ERROR_NOT_FOUND = 404;
+    int ERROR_Forbidden = 403;
+    int ERROR_PRECONDITION_FAILED = 403;
+    int ERROR_OK = 200;
+    int ERROR_No_Content = 204;
+    int ERROR_Method_Not_Allowed = 405;
+    int ERROR_RESPONSE_ERROR = 400;
 }

@@ -31,12 +31,13 @@ public class RestClient implements RestConstant {
     File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "cache");
     Cache cache = new Cache(cacheFile, 1024 * 1024 * 50); //50Mb
 
-    public static RestClient getInstance(Context context, int request) {
+    public static RestClient restInstance(Context context, int request) {
         if (instance == null) {
             instance = new RestClient(context, request);
         }
         return instance;
     }
+
 
     public RestClient(Context context, int request) {
         this.context = context;
@@ -73,7 +74,6 @@ public class RestClient implements RestConstant {
             .addInterceptor(logging).build();
 
     TokenManager tokenManager = new TokenManagerImpl(context);
-
 
     OkHttpClient httpClientAuth = new OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)

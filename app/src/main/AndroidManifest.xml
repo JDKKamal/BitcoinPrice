@@ -21,7 +21,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.CurrentPriceActivity"/>
+        <activity android:name=".DesktopActivity" />
+        <activity android:name=".activity.CurrentPriceActivity" />
+        <activity android:name=".activity.CurrentPriceHalfPieActivity" />
+        <activity android:name=".activity.CloseActivity" />
+        <activity android:name=".activity.CurrencyActivity" />
     </application>
 
 </manifest>

@@ -75,6 +75,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    //https://devhub.io
+
     private Unbinder unbinder;
 
     public ProgressBar progressToolbar;
@@ -147,6 +149,16 @@ public abstract class BaseActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+    protected String getStringFromId(int id) {
+        String str = null;
+        try {
+            str = this.getString(id);
+        } catch (Exception e) {
+        }
+        return str;
+    }
+
 
     //SCREEN SIZE
     protected int[] getScreenSize(Activity activity) {
