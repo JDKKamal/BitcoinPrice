@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -86,6 +85,7 @@ public class RestClient implements RestConstant {
     }
 
     //TODO CACHE CONTROL INTERCEPTOR MANAGE
+    //https://www.codeday.top/2016/12/19/6602.html
     public class CacheControlInterceptor implements Interceptor {
         TokenManager tokenManager = new TokenManagerImpl(context);
 
