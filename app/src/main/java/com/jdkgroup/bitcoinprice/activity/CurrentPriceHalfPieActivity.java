@@ -39,14 +39,17 @@ public class CurrentPriceHalfPieActivity extends SimpleMVPActivity<CurrentPriceP
         bindViews();
         toolBar.setTitle("Current Price");
 
+        getPresenter().apiCurrentPrice();
+
         pieCharInit();
         legendInit();
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        getPresenter().apiCurrentPrice();
     }
 
     public void pieCharInit()
