@@ -36,7 +36,11 @@ public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> 
         toolBar.setTitle("Close");
 
         setRecyclerView(recyclerView, 0, recyclerViewLinearLayout);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         getPresenter().apiClose();
     }
 

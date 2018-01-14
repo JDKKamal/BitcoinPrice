@@ -38,7 +38,11 @@ public class CloseWithDateActivity extends SimpleMVPActivity<ClosePresenter, Clo
         toolBar.setTitle("Close");
 
         setRecyclerView(recyclerView, 0, recyclerViewLinearLayout);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         getPresenter().apiClose();
     }
 

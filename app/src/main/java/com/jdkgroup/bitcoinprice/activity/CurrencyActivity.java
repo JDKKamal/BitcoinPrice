@@ -64,6 +64,11 @@ public class CurrencyActivity extends SimpleMVPActivity<CurrencyPresenter, Curre
         pieChartInit();
         legendInit();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         getPresenter().apiCurrency();
     }
 
