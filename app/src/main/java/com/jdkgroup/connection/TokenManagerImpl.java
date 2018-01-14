@@ -2,8 +2,6 @@ package com.jdkgroup.connection;
 
 import android.content.Context;
 
-import com.jdkgroup.utils.Preference;
-
 import static com.jdkgroup.utils.Preference.preferenceInstance;
 
 public class TokenManagerImpl implements TokenManager {

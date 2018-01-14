@@ -5,10 +5,9 @@ import android.os.Handler;
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
 import com.jdkgroup.utils.AppUtils;
-import com.jdkgroup.utils.Preference;
 import com.jdkgroup.view.SplashScreenView;
 
-import static com.jdkgroup.utils.Preference.*;
+import static com.jdkgroup.utils.Preference.preferenceInstance;
 
 public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
     public void getSplashScreenWait(int timeOut) {

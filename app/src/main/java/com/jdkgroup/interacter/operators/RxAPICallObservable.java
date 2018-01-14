@@ -3,8 +3,8 @@ package com.jdkgroup.interacter.operators;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 
-import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.bitcoinprice.R;
+import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.model.Response;
 
 import java.net.ConnectException;

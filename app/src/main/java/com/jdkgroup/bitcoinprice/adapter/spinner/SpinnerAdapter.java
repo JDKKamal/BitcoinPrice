@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.jdkgroup.dialog.SpinnerDialog;
+
 import com.jdkgroup.bitcoinprice.R;
+import com.jdkgroup.dialog.SpinnerDialog;
 import com.jdkgroup.model.supportedcurrencies.ModelCurrencyDetail;
 
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

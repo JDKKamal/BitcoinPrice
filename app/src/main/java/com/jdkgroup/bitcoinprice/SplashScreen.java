@@ -8,10 +8,9 @@ import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
 import com.jdkgroup.interacter.AppInteractor;
 import com.jdkgroup.presenter.SplashScreenPresenter;
 import com.jdkgroup.utils.AppUtils;
-import com.jdkgroup.utils.Preference;
 import com.jdkgroup.view.SplashScreenView;
 
-import static com.jdkgroup.utils.Preference.*;
+import static com.jdkgroup.utils.Preference.preferenceInstance;
 
 public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, SplashScreenView> implements SplashScreenView {
 
