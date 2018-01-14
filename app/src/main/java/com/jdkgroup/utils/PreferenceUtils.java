@@ -37,6 +37,14 @@ public class PreferenceUtils implements AppConstant{
         return sharedPreferences.getBoolean(SP_IS_LOGIN, false);
     }
 
+    public void setIsToken(boolean islogin) {
+        sharedPreferences.edit().putBoolean(SP_IS_TOKEN, islogin).apply();
+    }
+
+    public boolean isToken() {
+        return sharedPreferences.getBoolean(SP_IS_TOKEN, false);
+    }
+
     public void setIsLogin(boolean islogin) {
         sharedPreferences.edit().putBoolean(SP_IS_LOGIN, islogin).apply();
     }

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.jdkgroup.baseclass.SimpleMVPActivity;
 import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
+import com.jdkgroup.connection.TokenManager;
+import com.jdkgroup.connection.TokenManagerImpl;
 import com.jdkgroup.interacter.AppInteractor;
 import com.jdkgroup.presenter.SplashScreenPresenter;
 import com.jdkgroup.utils.AppUtils;
@@ -21,6 +23,9 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
         super.onCreate(savedInstanceState);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.splash_screen);
+
+        //TODO TOKEN IS APPLY WEB SERVICE
+        PreferenceUtils.getInstance(this).setIsToken(false);
 
         //TODO GET DEVICE INFORMATION
         appInteractor = new AppInteractor();

@@ -22,6 +22,7 @@ public interface AppConstant {
 
     /* BASIC */
     public final String SP_IS_LOGIN = "is_login";
+    public final String SP_IS_TOKEN = "is_token";
     public final String SP_DEVICE_TOKEN = "device_token";
     public final String SP_AUTH_TOKEN = "auth_token";
     public final String SP_FCM_TOKEN = "fcm_token";

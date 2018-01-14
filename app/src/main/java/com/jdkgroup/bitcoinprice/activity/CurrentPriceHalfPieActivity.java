@@ -43,8 +43,6 @@ public class CurrentPriceHalfPieActivity extends SimpleMVPActivity<CurrentPriceP
 
         pieCharInit();
         legendInit();
-
-
     }
 
     @Override

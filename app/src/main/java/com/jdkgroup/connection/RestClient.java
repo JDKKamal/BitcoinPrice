@@ -90,7 +90,10 @@ public class RestClient implements RestConstant {
                 requestBuilder.method(original.method(), original.body());
                 Response response = chain.proceed(requestBuilder.build());
 
-                Logging.i("API Call " + response + " - " + response.body().string());
+                Logging.i("----------------- API CALL -----------------");
+                Logging.i("Token " + tokenManager.hasToken() + " - " + tokenManager.getToken());
+                Logging.i("Response " + response + " - " + response.body().string());
+                Logging.i("--------------------------------------------");
 
                 if (isInternet(context)) {
                     int maxAge = 60; // read from cache for 1 minute

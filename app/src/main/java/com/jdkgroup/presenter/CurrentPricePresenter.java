@@ -12,6 +12,7 @@ public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
             getAppInteractor().callApiCurrentPrice(getView().getActivity(), new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
+                    Logging.i("Calling resume time");
                     getView().showProgressDialog(true);
                 }
 
