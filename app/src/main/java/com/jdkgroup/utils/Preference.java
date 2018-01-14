@@ -7,23 +7,23 @@ import com.jdkgroup.constant.AppConstant;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class PreferenceUtils implements AppConstant{
+public class Preference implements AppConstant{
     private final static String SP_NAME = "interview";
-    private static PreferenceUtils preferenceUtils;
+    private static Preference preference;
     private SharedPreferences sharedPreferences;
     private Context mContext;
 
-    private PreferenceUtils(Context mContext) {
+    private Preference(Context mContext) {
         this.mContext = mContext;
         sharedPreferences = mContext.getSharedPreferences(SP_NAME, MODE_PRIVATE);
     }
 
-    public static PreferenceUtils getInstance(Context mContext) {
-        return preferenceUtils = (preferenceUtils == null ? new PreferenceUtils(mContext) : preferenceUtils);
+    public static Preference preferenceInstance(Context mContext) {
+        return preference = (preference == null ? new Preference(mContext) : preference);
     }
 
     private static void removeInstance() {
-        preferenceUtils = null;
+        preference = null;
     }
 
     public void clearAllPrefs() {

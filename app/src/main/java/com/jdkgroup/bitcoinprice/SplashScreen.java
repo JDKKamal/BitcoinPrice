@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 
 import com.jdkgroup.baseclass.SimpleMVPActivity;
 import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
-import com.jdkgroup.connection.TokenManager;
-import com.jdkgroup.connection.TokenManagerImpl;
 import com.jdkgroup.interacter.AppInteractor;
 import com.jdkgroup.presenter.SplashScreenPresenter;
 import com.jdkgroup.utils.AppUtils;
-import com.jdkgroup.utils.PreferenceUtils;
+import com.jdkgroup.utils.Preference;
 import com.jdkgroup.view.SplashScreenView;
+
+import static com.jdkgroup.utils.Preference.*;
 
 public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, SplashScreenView> implements SplashScreenView {
 
@@ -25,13 +25,14 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
         setContentView(R.layout.splash_screen);
 
         //TODO TOKEN IS APPLY WEB SERVICE
-        PreferenceUtils.getInstance(this).setIsToken(false);
+        preferenceInstance(this).setIsToken(false);
+        preferenceInstance(this).setDeviceToken("bearer ac65df43b1a76c8672f3f4da2c282f822a7bf39c40b47de7af930dc21110f0f4");
 
         //TODO GET DEVICE INFORMATION
         appInteractor = new AppInteractor();
         appInteractor.getDeviceInfo(getActivity());
 
-        if (PreferenceUtils.getInstance(this).isLogin() == false) {
+        if (!preferenceInstance(this).isLogin()) {
             //TODO SPLASH SCREEN TIME OUT
             getPresenter().getSplashScreenWait(SPLASH_TIME_OUT);
         } else {
