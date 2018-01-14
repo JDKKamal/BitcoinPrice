@@ -108,7 +108,7 @@ public class RestClient implements RestConstant {
 
             //TODO OFFLINE CACHE MANAGE
             if (isInternet(context)) {
-                int maxAge = 60; //CACHE EXPIRATION TIME， UNIT FOR SECONDS
+                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME， UNIT FOR SECONDS
                 return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
                         .header("Cache-Control", "public ,max-age=" + maxAge).build();
             } else {
