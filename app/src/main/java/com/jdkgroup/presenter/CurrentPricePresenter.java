@@ -3,6 +3,7 @@ package com.jdkgroup.presenter;
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.interacter.InterActorCallback;
 import com.jdkgroup.model.callapi.currentprice.MainCurrentPrice;
+import com.jdkgroup.utils.Logging;
 import com.jdkgroup.view.CurrentPriceView;
 
 public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
@@ -11,6 +12,7 @@ public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
             getAppInteractor().callApiCurrentPrice(getView().getActivity(), new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
+                    Logging.i("Calling resume time");
                     getView().showProgressDialog(true);
                 }
 

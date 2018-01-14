@@ -100,6 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Logging.i("Activity destroy");
         if (unbinder != null) {
             unbinder.unbind();
         }

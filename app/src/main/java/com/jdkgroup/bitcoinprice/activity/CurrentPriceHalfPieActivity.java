@@ -41,7 +41,11 @@ public class CurrentPriceHalfPieActivity extends SimpleMVPActivity<CurrentPriceP
 
         pieCharInit();
         legendInit();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         getPresenter().apiCurrentPrice();
     }
 

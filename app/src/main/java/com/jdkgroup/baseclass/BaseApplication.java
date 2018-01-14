@@ -9,6 +9,7 @@ package com.jdkgroup.baseclass;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.stetho.Stetho;
 import com.jdkgroup.bitcoinprice.R;
 import com.jdkgroup.utils.Logging;
 
@@ -25,9 +26,14 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        baseApplication = this;
+
         MultiDex.install(this);
         Logging.setDebugLogging(Logging.isDebugLogging());
-        baseApplication = this;
+
+        //Stetho.initializeWithDefaults(this);
+
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath(this.getString(R.string.regular_font))
