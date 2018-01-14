@@ -17,6 +17,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -29,6 +30,7 @@ public interface RestService {
     @POST
     Observable<String> apiPost(@Url String url);
 
+    @Headers("Cache-Control:public ,max-age=60")
     @GET
     Observable<MainCurrentPrice> apiGetCurrentPrice(@Url String url);
 

@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:itemBackground">@color/colorSettingMenu</item>
-        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowDisablePreview">true</item> <!--TODO REMOVE WHITE SCREEN-->
     </style>
 
     <style name="CircularProgressTransparent" parent="@android:style/Theme.Dialog">

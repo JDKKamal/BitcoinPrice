@@ -8,7 +8,6 @@ import com.jdkgroup.view.CurrentPriceView;
 
 public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
     public void apiCurrentPrice() {
-        if (hasInternet()) {
             getAppInteractor().callApiCurrentPrice(getView().getActivity(), new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
@@ -32,6 +31,5 @@ public class CurrentPricePresenter extends BasePresenter<CurrentPriceView> {
                 }
 
             });
-        }
     }
 }

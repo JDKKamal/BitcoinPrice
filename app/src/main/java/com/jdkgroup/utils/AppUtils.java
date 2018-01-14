@@ -84,10 +84,6 @@ public class AppUtils {
         return str;
     }
 
-    public static void toast(Context context, int message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-    }
-
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
