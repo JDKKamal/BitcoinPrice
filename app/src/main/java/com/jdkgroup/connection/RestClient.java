@@ -108,11 +108,11 @@ public class RestClient implements RestConstant {
 
             //TODO OFFLINE CACHE MANAGE
             if (isInternet(context)) {
-                int maxAge = 60;// Cache expiration time ， Unit for seconds
-                return response.newBuilder().removeHeader("Pragma") //Clear header information，Because server if not supported ， Will return some interference information ， Does not clear the following can not be effective
+                int maxAge = 60; //CACHE EXPIRATION TIME， UNIT FOR SECONDS
+                return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
                         .header("Cache-Control", "public ,max-age=" + maxAge).build();
             } else {
-                int maxStale = 60 * 60 * 24 * 28; //  When there is no network ， Set timeout to 4 week
+                int maxStale = 60 * 60 * 24 * 28; //WHEN THERE IS NO NETWORK ， SET TIMEOUT TO 4 WEEK
                 return response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                         .removeHeader("Pragma")
                         .build();
