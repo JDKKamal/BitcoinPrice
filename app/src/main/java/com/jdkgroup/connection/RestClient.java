@@ -1,20 +1,16 @@
 package com.jdkgroup.connection;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.GsonBuilder;
 import com.jdkgroup.baseclass.BaseApplication;
-import com.jdkgroup.bitcoinprice.R;
 import com.jdkgroup.constant.RestConstant;
 import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.utils.Logging;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -22,6 +18,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -29,26 +26,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient implements RestConstant {
 
-    private static RestClient instance;
-    private Context context;
-    private TokenManager tokenManager;
+    private static RestClient restClient;
+    private static Context context;
 
     private RestService restService;
     private final int DEFAULT_TIMEOUT = 10;
 
-    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-    private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "BitcoinPrice");
+    private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "cache");
     private Cache cache = new Cache(cacheFile, 1024 * 1024 * 1024); //1 GB
 
-    public static RestClient restInstance(Context context, int request) {
-        return instance = (instance == null ? new RestClient(context, request) : instance);
+    public static RestClient restInstance(Context context) {
+        return restClient = (restClient == null ? new RestClient(context) : restClient);
     }
 
-    public RestClient(Context context, int request) {
+    private RestClient(Context context) {
         this.context = context;
-        tokenManager = new TokenManagerImpl(context);
-        if (request == REQUEST_NO_AUTH) {
             restService = new Retrofit.Builder().baseUrl(BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     //.addConverterFactory(new ToStringConverterFactory())
@@ -56,7 +50,6 @@ public class RestClient implements RestConstant {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(httpClient)
                     .build().create(RestService.class);
-        }
     }
 
     public RestService getService() {
@@ -67,25 +60,17 @@ public class RestClient implements RestConstant {
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET CONNECTION TIMEOUT
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET READ TIMEOUT
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET WRITE TIMEOUT
-            //.addNetworkInterceptor(new StethoInterceptor())
+            .addInterceptor(new HeaderInterceptor())
             .addNetworkInterceptor(new CacheControlInterceptor())
             .addInterceptor(logging)
             .cache(cache) //ADD CACHE
             .build();
 
-    protected boolean isInternet(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
-            AppUtils.showToast(context, String.valueOf(R.string.no_internet_message));
-            return false;
-        }
-        return true;
-    }
-
     //TODO CACHE CONTROL INTERCEPTOR MANAGE
     //https://www.codeday.top/2016/12/19/6602.html
-    public class CacheControlInterceptor implements Interceptor {
+    public class HeaderInterceptor implements Interceptor {
+        TokenManager tokenManager = new TokenManagerImpl(context);
+
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
@@ -103,18 +88,29 @@ public class RestClient implements RestConstant {
             Logging.i("Response " + response);
             Logging.i("--------------------------------------------");
 
+            String data = response.body().string();
+
+            return response.newBuilder().body(ResponseBody.create(response.body().contentType(), data)).build();
+        }
+    }
+
+    public class CacheControlInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+
             //TODO OFFLINE CACHE MANAGE
-            if (isInternet(context)) {
-                Logging.i("Online");
-                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME，UNIT FOR SECONDS (ONLY FOR 60 = 1 MINUTE)
-                response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
-                        .header("Cache-Control", "public ,max-age=" + maxAge);
+            if (AppUtils.isInternet(context)) {
+                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME， UNIT FOR SECONDS
+                return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
+                        .header("Cache-Control", "public ,max-age=" + maxAge).build();
             } else {
-                int maxStale = 60 * 60 * 24 * 28; //WHEN THERE IS NO NETWORK，SET TIMEOUT TO 4 WEEK
-                response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma");
+                int maxStale = 60 * 60 * 24 * 28; //WHEN THERE IS NO NETWORK， SET TIMEOUT TO 4 WEEK
+                return response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .removeHeader("Pragma")
+                        .build();
             }
-            return response.newBuilder().build();
         }
     }
 }

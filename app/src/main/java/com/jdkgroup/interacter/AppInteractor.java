@@ -2,8 +2,8 @@ package com.jdkgroup.interacter;
 
 //TODO DEVELOPED BY KAMLESH LAKHANI
 /*
-  * TODO COMMON LOGIC API CALL, DATABASE ETC.
-*/
+ * TODO COMMON LOGIC API CALL, DATABASE ETC.
+ */
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +34,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.jdkgroup.connection.RestClient.restInstance;
 
-public class AppInteractor implements RestConstant{
+public class AppInteractor implements RestConstant {
     private Observable observable;
 
     public AppInteractor() {
@@ -92,22 +92,22 @@ public class AppInteractor implements RestConstant{
 
     //TODO CALL API
     public void callApiCurrentPrice(Context context, InterActorCallback<MainCurrentPrice> callback) {
-        observable =  restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE);
+        observable = restInstance(context).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE);
         toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiClose(Context context, InterActorCallback<MainClose> callback) {
-        observable =   restInstance(context, REQUEST_NO_AUTH).getService().apiGetClose(BASE_URL + API_GET_CLOSE);
+        observable = restInstance(context).getService().apiGetClose(BASE_URL + API_GET_CLOSE);
         toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiCurrency(Context context, InterActorCallback<List<ModelCurrencyDetail>> callback) {
-        observable = restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrency(BASE_URL + API_GET_SUPPORTED_CURRENCIES);
+        observable = restInstance(context).getService().apiGetCurrency(BASE_URL + API_GET_SUPPORTED_CURRENCIES);
         toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 
     public void callApiCurrentPriceWithCurrency(Context context, String currency, InterActorCallback<MainCurrentPrice> callback) {
-        observable = restInstance(context, REQUEST_NO_AUTH).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE_WITH_CURRENCY +"/"+ currency + ".json");
+        observable = restInstance(context).getService().apiGetCurrentPrice(BASE_URL + API_GET_CURRENT_PRICE_WITH_CURRENCY + "/" + currency + ".json");
         toSubscribe(new RxAPICallDisposingObserver(context, callback));
     }
 

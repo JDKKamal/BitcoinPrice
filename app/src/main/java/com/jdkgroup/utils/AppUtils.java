@@ -1,5 +1,6 @@
 package com.jdkgroup.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -28,6 +31,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jdkgroup.bitcoinprice.R;
 
 import org.json.JSONObject;
 
@@ -75,13 +80,23 @@ public class AppUtils {
         toast.show();
     }
 
-    private static String getStringFromId(Context mContext, int id) {
+    private static String getStringFromId(Context context, int id) {
         String str = null;
         try {
-            str = mContext.getString(id);
+            str = context.getString(id);
         } catch (Exception e) {
         }
         return str;
+    }
+
+    public static boolean isInternet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
+            AppUtils.showToast(context, context.getString(R.string.no_internet_message));
+            return false;
+        }
+        return true;
     }
 
     private static String convertToHex(byte[] data) {
