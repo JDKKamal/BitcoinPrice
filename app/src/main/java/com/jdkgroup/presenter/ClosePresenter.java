@@ -7,7 +7,13 @@ import com.jdkgroup.view.CloseView;
 
 public class ClosePresenter extends BasePresenter<CloseView> {
     public void apiClose() {
-        if (hasInternet()) {
+
+            //TODO NETWORK CHECK
+            /*if(hasInternet())
+            {
+
+            }*/
+
             getAppInteractor().callApiClose(getView().getActivity(), new InterActorCallback<MainClose>() {
                 @Override
                 public void onStart() {
@@ -30,6 +36,5 @@ public class ClosePresenter extends BasePresenter<CloseView> {
                 }
 
             });
-        }
     }
 }

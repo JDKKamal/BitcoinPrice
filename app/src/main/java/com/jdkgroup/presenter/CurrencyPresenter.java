@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CurrencyPresenter extends BasePresenter<CurrencyView> {
     public void apiCurrency() {
-        if (hasInternet()) {
             getAppInteractor().callApiCurrency(getView().getActivity(), new InterActorCallback<List<ModelCurrencyDetail>>() {
                 @Override
                 public void onStart() {
@@ -33,11 +32,9 @@ public class CurrencyPresenter extends BasePresenter<CurrencyView> {
                 }
 
             });
-        }
     }
 
     public void apiCurrentPriceWithCurrency(String currency) {
-        if (hasInternet()) {
             getAppInteractor().callApiCurrentPriceWithCurrency(getView().getActivity(), currency, new InterActorCallback<MainCurrentPrice>() {
                 @Override
                 public void onStart() {
@@ -60,6 +57,5 @@ public class CurrencyPresenter extends BasePresenter<CurrencyView> {
                 }
 
             });
-        }
     }
 }

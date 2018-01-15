@@ -3,7 +3,7 @@ package com.jdkgroup.presenter;
 import android.os.Handler;
 
 import com.jdkgroup.baseclass.BasePresenter;
-import com.jdkgroup.bitcoinprice.activity.CurrentPriceHalfPieActivity;
+import com.jdkgroup.bitcoinprice.DesktopActivity;
 import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.view.SplashScreenView;
 
@@ -14,7 +14,7 @@ public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
         new Handler().postDelayed(() -> {
             preferenceInstance(getView().getActivity()).setIsLogin(true);
 
-            AppUtils.startActivity(getView().getActivity(), CurrentPriceHalfPieActivity.class);
+            AppUtils.startActivity(getView().getActivity(), DesktopActivity.class);
             getView().getActivity().finish();
 
         }, timeOut);
