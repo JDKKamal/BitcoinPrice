@@ -9,6 +9,7 @@ package com.jdkgroup.baseclass;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.stetho.Stetho;
 import com.jdkgroup.bitcoinprice.R;
 import com.jdkgroup.utils.Logging;
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.GsonBuilder;
 import com.jdkgroup.baseclass.BaseApplication;
 import com.jdkgroup.bitcoinprice.R;
@@ -69,7 +70,7 @@ public class RestClient implements RestConstant {
             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET CONNECTION TIMEOUT
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET READ TIMEOUT
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET WRITE TIMEOUT
-            .addNetworkInterceptor(new CacheControlInterceptor())
+            //.addNetworkInterceptor(new StethoInterceptor())
             .addInterceptor(logging)
             .cache(cache) //ADD CACHE
             .build();
@@ -87,14 +88,13 @@ public class RestClient implements RestConstant {
     //TODO CACHE CONTROL INTERCEPTOR MANAGE
     //https://www.codeday.top/2016/12/19/6602.html
     public class CacheControlInterceptor implements Interceptor {
-        TokenManager tokenManager = new TokenManagerImpl(context);
-
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             builder.header("Accept", "application/json");
 
             //TODO TOKEN PASS
+            TokenManager tokenManager = new TokenManagerImpl(context);
             if (tokenManager.hasToken()) {
                 Logging.i(tokenManager.getToken());
                 builder.header("Authorization", tokenManager.getToken());
@@ -108,15 +108,15 @@ public class RestClient implements RestConstant {
 
             //TODO OFFLINE CACHE MANAGE
             if (isInternet(context)) {
-                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME，UNIT FOR SECONDS (60 IS 1 SECOND)
-                return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
-                        .header("Cache-Control", "public ,max-age=" + maxAge).build();
+                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME，UNIT FOR SECONDS (ONLY FOR 60 = 1 MINUTE)
+                response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
+                        .header("Cache-Control", "public ,max-age=" + maxAge);
             } else {
                 int maxStale = 60 * 60 * 24 * 28; //WHEN THERE IS NO NETWORK，SET TIMEOUT TO 4 WEEK
-                return response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma")
-                        .build();
+                response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .removeHeader("Pragma");
             }
+            return response.newBuilder().build();
         }
     }
 }
