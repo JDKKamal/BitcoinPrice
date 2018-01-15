@@ -29,36 +29,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient implements RestConstant {
 
-    private static RestClient instance = null;
-    private static Context context;
+    private static RestClient instance;
+    private Context context;
+    private TokenManager tokenManager;
 
     private RestService restService;
     private final int DEFAULT_TIMEOUT = 10;
 
-    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
+    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "BitcoinPrice");
     private Cache cache = new Cache(cacheFile, 1024 * 1024 * 1024); //1 GB
 
     public static RestClient restInstance(Context context, int request) {
-        if (instance == null) {
-            instance = new RestClient(context, request);
-        }
-        return instance;
+        return instance = (instance == null ? new RestClient(context, request) : instance);
     }
 
     public RestClient(Context context, int request) {
         this.context = context;
-        Retrofit retrofit;
+        tokenManager = new TokenManagerImpl(context);
         if (request == REQUEST_NO_AUTH) {
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+            restService = new Retrofit.Builder().baseUrl(BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     //.addConverterFactory(new ToStringConverterFactory())
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create()))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(httpClient)
-                    .build();
-            restService = retrofit.create(RestService.class);
+                    .build().create(RestService.class);
         }
     }
 
@@ -71,6 +68,7 @@ public class RestClient implements RestConstant {
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET READ TIMEOUT
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET WRITE TIMEOUT
             //.addNetworkInterceptor(new StethoInterceptor())
+            .addNetworkInterceptor(new CacheControlInterceptor())
             .addInterceptor(logging)
             .cache(cache) //ADD CACHE
             .build();
@@ -94,7 +92,6 @@ public class RestClient implements RestConstant {
             builder.header("Accept", "application/json");
 
             //TODO TOKEN PASS
-            TokenManager tokenManager = new TokenManagerImpl(context);
             if (tokenManager.hasToken()) {
                 Logging.i(tokenManager.getToken());
                 builder.header("Authorization", tokenManager.getToken());
@@ -108,6 +105,7 @@ public class RestClient implements RestConstant {
 
             //TODO OFFLINE CACHE MANAGE
             if (isInternet(context)) {
+                Logging.i("Online");
                 int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME，UNIT FOR SECONDS (ONLY FOR 60 = 1 MINUTE)
                 response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
                         .header("Cache-Control", "public ,max-age=" + maxAge);
