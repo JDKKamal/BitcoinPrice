@@ -30,6 +30,7 @@ public interface RestService {
     @POST
     Observable<String> apiPost(@Url String url);
 
+    //@Headers("Cache-Control: public, max-age=640000, s-maxage=640000 , max-stale=2419200")
     @GET
     Observable<MainCurrentPrice> apiGetCurrentPrice(@Url String url);
 

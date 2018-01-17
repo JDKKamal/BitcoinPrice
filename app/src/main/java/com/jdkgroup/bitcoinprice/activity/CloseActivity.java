@@ -60,10 +60,8 @@ public class CloseActivity extends SimpleMVPActivity<ClosePresenter, CloseView> 
     public void callClose(MainClose response) {
         List<ModelBpiDetail> listBpiDetail = new ArrayList<>();
 
-        int index = 0;
         for (Map.Entry<String, String> entry : response.getBpi().entrySet()) {
             listBpiDetail.add(new ModelBpiDetail(entry.getKey(), entry.getValue()));
-            index++;
         }
 
         recyclerView.setAdapter(new CloseAdapter(this, listBpiDetail));

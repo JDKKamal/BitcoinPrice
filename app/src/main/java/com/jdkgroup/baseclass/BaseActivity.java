@@ -63,6 +63,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -338,6 +339,16 @@ public abstract class BaseActivity extends AppCompatActivity {
                         setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).
                         setPrettyPrinting().serializeNulls().
                         create();
+
+            case 3:
+                new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                break;
+
+
+            case 4:
+
+                break;
+
             default:
                 break;
         }

@@ -10,7 +10,6 @@ import com.jdkgroup.utils.Logging;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -31,11 +30,13 @@ public class RestClient implements RestConstant {
 
     private RestService restService;
     private final int DEFAULT_TIMEOUT = 10;
+    private int cacheSizeInMbs = 50;
+    private int maxStale = 7; //1 WEEK
 
-    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
+    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
-    private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "cache");
-    private Cache cache = new Cache(cacheFile, 1024 * 1024 * 1024); //1 GB
+    private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "bitcoinprice");
+    private Cache cache = new Cache(cacheFile, 1024 * 1024 * cacheSizeInMbs);
 
     public static RestClient restInstance(Context context) {
         return restClient = (restClient == null ? new RestClient(context) : restClient);
@@ -43,13 +44,13 @@ public class RestClient implements RestConstant {
 
     private RestClient(Context context) {
         this.context = context;
-            restService = new Retrofit.Builder().baseUrl(BASE_URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    //.addConverterFactory(new ToStringConverterFactory())
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create()))
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(httpClient)
-                    .build().create(RestService.class);
+        restService = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                //.addConverterFactory(new ToStringConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(httpClient)
+                .build().create(RestService.class);
     }
 
     public RestService getService() {
@@ -88,9 +89,7 @@ public class RestClient implements RestConstant {
             Logging.i("Response " + response);
             Logging.i("--------------------------------------------");
 
-            String data = response.body().string();
-
-            return response.newBuilder().body(ResponseBody.create(response.body().contentType(), data)).build();
+            return response.newBuilder().body(ResponseBody.create(response.body().contentType(), response.body().string())).build();
         }
     }
 
@@ -102,14 +101,10 @@ public class RestClient implements RestConstant {
 
             //TODO OFFLINE CACHE MANAGE
             if (AppUtils.isInternet(context)) {
-                int maxAge = 60 * 60 * 24 * 28; //CACHE EXPIRATION TIME， UNIT FOR SECONDS
                 return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
-                        .header("Cache-Control", "public ,max-age=" + maxAge).build();
+                        .header("Cache-Control", "public, max-age=" + 60 * 60 * 24 * maxStale).build();
             } else {
-                int maxStale = 60 * 60 * 24 * 28; //WHEN THERE IS NO NETWORK， SET TIMEOUT TO 4 WEEK
-                return response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .removeHeader("Pragma")
-                        .build();
+                return response.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * maxStale).removeHeader("Pragma").build();
             }
         }
     }
