@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.jdkgroup.baseclass.SimpleMVPActivity;
+import com.jdkgroup.bitcoinprice.activity.MVPDemo;
 import com.jdkgroup.constant.RestConstant;
 import com.jdkgroup.interacter.AppInteractor;
 import com.jdkgroup.interacter.InterActorCallback;
@@ -31,17 +32,18 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
         preferenceInstance(this).setDeviceToken("bearer ac65df43b1a76c8672f3f4da2c282f822a7bf39c40b47de7af930dc21110f0f4");
 
         //TODO DIRECT CALLING API IN APPINTERACTOR CLASS
-        callApiClose();
 
         //TODO GET DEVICE INFORMATION
         appInteractor = new AppInteractor();
         appInteractor.getDeviceInfo(getActivity());
 
+        //callApiClose();
+
         if (!preferenceInstance(this).isLogin()) {
             //TODO SPLASH SCREEN TIME OUT
             getPresenter().getSplashScreenWait(SPLASH_TIME_OUT);
         } else {
-            AppUtils.startActivity(getActivity(), DesktopActivity.class);
+            AppUtils.startActivity(getActivity(), MVPDemo.class);
             finish();
         }
     }

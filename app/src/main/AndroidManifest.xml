@@ -26,6 +26,7 @@
         <activity android:name=".activity.CurrentPriceHalfPieActivity" />
         <activity android:name=".activity.CloseActivity" />
         <activity android:name=".activity.CurrencyActivity" />
+        <activity android:name=".activity.MVPDemo"/>
     </application>
 
 </manifest>

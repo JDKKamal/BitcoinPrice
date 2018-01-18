@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.jdkgroup.baseclass.BasePresenter;
 import com.jdkgroup.bitcoinprice.DesktopActivity;
+import com.jdkgroup.bitcoinprice.activity.MVPDemo;
 import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.view.SplashScreenView;
 
@@ -14,7 +15,7 @@ public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
         new Handler().postDelayed(() -> {
             preferenceInstance(getView().getActivity()).setIsLogin(true);
 
-            AppUtils.startActivity(getView().getActivity(), DesktopActivity.class);
+            AppUtils.startActivity(getView().getActivity(), MVPDemo.class);
             getView().getActivity().finish();
 
         }, timeOut);

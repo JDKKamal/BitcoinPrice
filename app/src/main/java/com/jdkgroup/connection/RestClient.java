@@ -33,7 +33,7 @@ public class RestClient implements RestConstant {
     private int cacheSizeInMbs = 50;
     private int maxStale = 7; //1 WEEK
 
-    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE);
 
     private File cacheFile = new File(BaseApplication.getBaseApplication().getCacheDir(), "bitcoinprice");
     private Cache cache = new Cache(cacheFile, 1024 * 1024 * cacheSizeInMbs);
@@ -74,22 +74,26 @@ public class RestClient implements RestConstant {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            Request.Builder builder = chain.request().newBuilder();
-            builder.header("Accept", "application/json");
+            Request original = chain.request();
+            Request.Builder requestBuilder = original.newBuilder();
+            requestBuilder.header("Accept", "application/json");
+            requestBuilder.method(original.method(), original.body());
 
-            //TODO TOKEN PASS
             if (tokenManager.hasToken()) {
                 Logging.i(tokenManager.getToken());
-                builder.header("Authorization", tokenManager.getToken());
+                requestBuilder.header("Authorization", tokenManager.getToken());
             }
-            Response response = chain.proceed(builder.build());
+            Request request = requestBuilder.build();
+            Response response = chain.proceed(request);
 
             Logging.i("----------------- API CALL -----------------");
             Logging.i("Token " + tokenManager.hasToken() + " - " + tokenManager.getToken());
             Logging.i("Response " + response);
             Logging.i("--------------------------------------------");
 
-            return response.newBuilder().body(ResponseBody.create(response.body().contentType(), response.body().string())).build();
+            String data = response.body().string();
+
+            return response.newBuilder().body(ResponseBody.create(response.body().contentType(), data)).build();
         }
     }
 

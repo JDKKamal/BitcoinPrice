@@ -104,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (unbinder != null) {
             unbinder.unbind();
         }
-        DisposableManager.dispose();
+        //DisposableManager.dispose();
         super.onDestroy();
     }
 
