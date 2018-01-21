@@ -23,6 +23,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public class RestClient implements RestConstant {
 
     private static RestClient restClient;
@@ -62,9 +64,9 @@ public class RestClient implements RestConstant {
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET READ TIMEOUT
             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //SET WRITE TIMEOUT
             .addInterceptor(new HeaderInterceptor())
-            .addNetworkInterceptor(new CacheControlInterceptor())
+            //.addNetworkInterceptor(new CacheControlInterceptor())
             .addInterceptor(logging)
-            .cache(cache) //ADD CACHE
+            //.cache(cache) //ADD CACHE
             .build();
 
     //TODO CACHE CONTROL INTERCEPTOR MANAGE
@@ -104,7 +106,7 @@ public class RestClient implements RestConstant {
             Response response = chain.proceed(request);
 
             //TODO OFFLINE CACHE MANAGE
-            if (AppUtils.isInternet(context)) {
+            if (appUtilsInstance().isInternet(context)) {
                 return response.newBuilder().removeHeader("Pragma") //CLEAR HEADER INFORMATION，BECAUSE SERVER IF NOT SUPPORTED， WILL RETURN SOME INTERFERENCE INFORMATION， DOES NOT CLEAR THE FOLLOWING CAN NOT BE EFFECTIVE
                         .header("Cache-Control", "public, max-age=" + 60 * 60 * 24 * maxStale).build();
             } else {

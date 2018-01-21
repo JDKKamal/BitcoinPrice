@@ -10,6 +10,8 @@ import com.jdkgroup.presenter.CurrentPricePresenter;
 import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.view.CurrentPriceView;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public class MVPDemo extends SimpleMVPActivity<CurrentPricePresenter, CurrentPriceView> implements CurrentPriceView {
 
 
@@ -28,7 +30,7 @@ public class MVPDemo extends SimpleMVPActivity<CurrentPricePresenter, CurrentPri
 
     @Override
     public void onFailure(String message) {
-        AppUtils.showToast(getActivity(), message + "");
+        appUtilsInstance().showToast(getActivity(), message + "");
     }
 
     @NonNull
@@ -45,6 +47,6 @@ public class MVPDemo extends SimpleMVPActivity<CurrentPricePresenter, CurrentPri
 
     @Override
     public void callCurrentPrice(MainCurrentPrice response) {
-        AppUtils.showToast(getActivity(), response + "");
+        appUtilsInstance().showToast(getActivity(), response + "");
     }
 }

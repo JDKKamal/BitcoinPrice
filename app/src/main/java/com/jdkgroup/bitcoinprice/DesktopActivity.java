@@ -19,6 +19,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public class DesktopActivity extends BaseActivity implements DesktopAdapter.ItemListener {
 
     @BindView(R.id.recyclerView)
@@ -61,13 +63,13 @@ public class DesktopActivity extends BaseActivity implements DesktopAdapter.Item
         Logging.i(str);
 
         if (str.equalsIgnoreCase("Today")) {
-            AppUtils.startActivity(getActivity(), CloseActivity.class);
+            appUtilsInstance().startActivity(getActivity(), CloseActivity.class);
         } else if (str.equalsIgnoreCase("Current Price")) {
-            AppUtils.startActivity(getActivity(), CurrentPriceActivity.class);
+            appUtilsInstance().startActivity(getActivity(), CurrentPriceActivity.class);
         } else if (str.equalsIgnoreCase("Currency")) {
-            AppUtils.startActivity(getActivity(), CurrencyActivity.class);
+            appUtilsInstance().startActivity(getActivity(), CurrencyActivity.class);
         } else if (str.equalsIgnoreCase("Close")) {
-            AppUtils.startActivity(getActivity(), CurrentPriceHalfPieActivity.class);
+            appUtilsInstance().startActivity(getActivity(), CurrentPriceHalfPieActivity.class);
         }
     }
 }

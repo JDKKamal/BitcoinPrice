@@ -6,6 +6,16 @@ import android.text.TextWatcher;
 
 public class AppEditTextChangedListener implements TextWatcher {
 
+    /*
+    TODO CALLING
+    appEditFilter.addTextChangedListener(new AppEditTextChangedListener(this, appEditFilter));
+
+    @Override
+    public void onTextChanged(String str) {
+        filterAdapter.getFilter().filter(str);
+    }
+    */
+
     private AppCompatEditText appCompatEditText;
     private OnEditTextChangedListener mListener;
 

@@ -8,6 +8,7 @@ import com.jdkgroup.bitcoinprice.activity.MVPDemo;
 import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.view.SplashScreenView;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
 import static com.jdkgroup.utils.Preference.preferenceInstance;
 
 public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
@@ -15,7 +16,7 @@ public class SplashScreenPresenter extends BasePresenter<SplashScreenView> {
         new Handler().postDelayed(() -> {
             preferenceInstance(getView().getActivity()).setIsLogin(true);
 
-            AppUtils.startActivity(getView().getActivity(), MVPDemo.class);
+            appUtilsInstance().startActivity(getView().getActivity(), MVPDemo.class);
             getView().getActivity().finish();
 
         }, timeOut);

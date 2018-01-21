@@ -36,9 +36,12 @@ import com.jdkgroup.bitcoinprice.R;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -66,21 +69,30 @@ public class AppUtils {
     private static FragmentManager fragmentManager;
     private static FragmentTransaction fragmentTransaction;
 
-    public static void showToast(Context context, String message) {
+    private static AppUtils appUtils;
+
+    public static AppUtils appUtilsInstance() {
+        if (appUtils == null) {
+            appUtils = new AppUtils();
+        }
+        return appUtils;
+    }
+
+    public void showToast(Context context, String message) {
         Toast toast = Toast.makeText(context, message + "", Toast.LENGTH_SHORT);
         TextView textView = toast.getView().findViewById(android.R.id.message);
         if (textView != null) textView.setGravity(Gravity.CENTER);
         toast.show();
     }
 
-    public static void showToastById(Context context, int id) {
+    public void showToastById(Context context, int id) {
         Toast toast = Toast.makeText(context, getStringFromId(context, id), Toast.LENGTH_SHORT);
         TextView textView = toast.getView().findViewById(android.R.id.message);
         if (textView != null) textView.setGravity(Gravity.CENTER);
         toast.show();
     }
 
-    private static String getStringFromId(Context context, int id) {
+    private String getStringFromId(Context context, int id) {
         String str = null;
         try {
             str = context.getString(id);
@@ -89,17 +101,17 @@ public class AppUtils {
         return str;
     }
 
-    public static boolean isInternet(Context context) {
+    public boolean isInternet(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
-            AppUtils.showToast(context, context.getString(R.string.no_internet_message));
+            showToast(context, context.getString(R.string.no_internet_message));
             return false;
         }
         return true;
     }
 
-    private static String convertToHex(byte[] data) {
+    private String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
             int halfbyte = (b >>> 4) & 0x0F;
@@ -128,19 +140,19 @@ public class AppUtils {
         return fileUri;
     }*/
 
-    private static File getWorkingDirectory() {
+    private File getWorkingDirectory() {
         File directory = new File(Environment.getExternalStorageDirectory(), "Mowadcom");
         return createDirectory(directory);
     }
 
-    private static File createDirectory(File file) {
+    private File createDirectory(File file) {
         if (!file.exists()) {
             file.mkdir();
         }
         return file;
     }
 
-    public static String setImage(String imageBaseUrl) {
+    public String setImage(String imageBaseUrl) {
         // return PocketAccountConstant.IMAGE_BASE_URL.concat(imageBaseUrl);
         return null;
     }
@@ -149,12 +161,12 @@ public class AppUtils {
         return RequestBody.create(MediaType.parse("multipart/form-data"), value);
     } */
 
-    public static void startActivity(Context context, Class className) {
+    public void startActivity(Context context, Class className) {
         Intent intent = new Intent(context, className);
         context.startActivity(intent);
     }
 
-    public static SpannableString timestampToDate(String strTimestamp) {
+    public SpannableString timestampToDate(String strTimestamp) {
         try {
             long timestamp = Long.parseLong(strTimestamp) * 1000L;
             DateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm aaa");
@@ -199,7 +211,7 @@ public class AppUtils {
         }
     }
 
-    public static String getDateFromTime(long mTimestamp, String mDateFormat) {
+    public String getDateFromTime(long mTimestamp, String mDateFormat) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat(mDateFormat);
         dateFormatter.setTimeZone(TimeZone.getDefault());
 
@@ -209,7 +221,7 @@ public class AppUtils {
         return dateFormatter.format(cal.getTime());
     }
 
-    public static String getDateString(long miliis, String mDateFormate) {
+    public String getDateString(long miliis, String mDateFormate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
         calendar.setTimeInMillis(miliis);
@@ -217,22 +229,22 @@ public class AppUtils {
         return dateFormatter.format(calendar.getTime());
     }
 
-    public static String getLongTimestampToDate(long timestamp, String timeFormat) {
+    public String getLongTimestampToDate(long timestamp, String timeFormat) {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
         calendar.setTimeInMillis(timestamp * 1000L);
         return android.text.format.DateFormat.format(timeFormat, calendar).toString();
     }
 
-    public static long getUtC(long millis) {
+    public long getUtC(long millis) {
         return millis + TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings();
     }
 
-    public static long getGMT(long millis) {
+    public long getGMT(long millis) {
         return millis - TimeZone.getDefault().getRawOffset() - TimeZone.getDefault().getDSTSavings();
     }
 
-    public static String getDate(long timeStamp) {
+    public String getDate(long timeStamp) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("DD MMMM yyyy", Locale.getDefault());
             Date netDate = (new Date(timeStamp * 1000));
@@ -242,13 +254,13 @@ public class AppUtils {
         }
     }
 
-    public static long getDateTimeInMilliseconds(final String date) throws ParseException {
+    public long getDateTimeInMilliseconds(final String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
         Date mDate = sdf.parse(date);
         return mDate.getTime();
     }
 
-    public static String getFormatNumber(String val) {
+    public String getFormatNumber(String val) {
         double d = 0;
         try {
             d = Double.parseDouble(val);
@@ -259,7 +271,7 @@ public class AppUtils {
         return NumberFormat.getNumberInstance(Locale.UK).format(d) + "";
     }
 
-    public static JSONObject convertMapToJsonObject(final Map map) {
+    public JSONObject convertMapToJsonObject(final Map map) {
         jsonobject = new JSONObject();
         try {
             iterator = map.entrySet().iterator();
@@ -271,7 +283,7 @@ public class AppUtils {
         return jsonobject;
     }
 
-    public static String getPathFromMediaUri(@NonNull Context context, @NonNull Uri uri) {
+    public String getPathFromMediaUri(@NonNull Context context, @NonNull Uri uri) {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
@@ -286,7 +298,7 @@ public class AppUtils {
         }
     }
 
-    public static File decreaseImageSize(File file) {
+    public File decreaseImageSize(File file) {
         try {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
@@ -321,12 +333,12 @@ public class AppUtils {
         }
     }
 
-    public static long getFileSize(File file) {
+    public long getFileSize(File file) {
         long sizeInBytes = file.length();
         return sizeInBytes / (1024 * 1024);
     }
 
-    public static int dpToPx(final float dp, final Resources resources) {
+    public int dpToPx(final float dp, final Resources resources) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
         return (int) px;
     }
@@ -352,14 +364,14 @@ public class AppUtils {
      }
  */
 
-    public static byte[] stringToBytes(String str) {
+    public byte[] stringToBytes(String str) {
         if (str == null || str.length() == 0) {
             return new byte[0];
         }
         return Base64.decode(str, Base64.DEFAULT);
     }
 
-    public static byte[] hexToBytes(String hex) {
+    public byte[] hexToBytes(String hex) {
         if (hex == null) {
             return null;
         }
@@ -371,7 +383,7 @@ public class AppUtils {
         return data;
     }
 
-    public static byte[] computeSHA256(byte[] convertme, int offset, int len) {
+    public byte[] computeSHA256(byte[] convertme, int offset, int len) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(convertme, offset, len);
@@ -382,12 +394,12 @@ public class AppUtils {
         return null;
     }
 
-    public static long bytesToLong(byte[] bytes) {
+    public long bytesToLong(byte[] bytes) {
         return ((long) bytes[7] << 56) + (((long) bytes[6] & 0xFF) << 48) + (((long) bytes[5] & 0xFF) << 40) + (((long) bytes[4] & 0xFF) << 32)
                 + (((long) bytes[3] & 0xFF) << 24) + (((long) bytes[2] & 0xFF) << 16) + (((long) bytes[1] & 0xFF) << 8) + ((long) bytes[0] & 0xFF);
     }
 
-    public static String MD5(String md5) {
+    public String MD5(String md5) {
         byte[] hash;
         try {
             hash = MessageDigest.getInstance("MD5").digest(md5.getBytes("UTF-8"));
@@ -405,7 +417,7 @@ public class AppUtils {
         return hex.toString();
     }
 
-    public static void displayMap(HashMap<String, String> hashMap) {
+    public void displayMap(HashMap<String, String> hashMap) {
         Iterator it = hashMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
@@ -414,21 +426,21 @@ public class AppUtils {
     }
 
     //TODO DUPLICATE REMOVE ITEMS
-    public static <E> List<E> listRemoveDuplicates(List<E> list) {
+    public <E> List<E> listRemoveDuplicates(List<E> list) {
         Set<E> uniques = new HashSet<E>();
         uniques.addAll(list);
         return new ArrayList<E>(uniques);
     }
 
-    public static <E> List<E> linkedHashSetRemoveDuplicates(List<E> list) {
+    public <E> List<E> linkedHashSetRemoveDuplicates(List<E> list) {
         return new ArrayList<E>(new LinkedHashSet<>(list));
     }
 
-    public static boolean isNotEmpty(List list) {
+    public boolean isNotEmpty(List list) {
         return list != null && !list.isEmpty();
     }
 
-    public static <T> List union(List<T> first, List<T> last) {
+    public <T> List union(List<T> first, List<T> last) {
         if (isNotEmpty(first) && isNotEmpty(last)) {
             first.addAll(last);
             return first;
@@ -438,27 +450,27 @@ public class AppUtils {
         return last;
     }
 
-    public static boolean hasLollipop() {
+    public boolean hasLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
-    public static boolean hasM() {
+    public boolean hasM() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
-    public static String floatFormat2Digit(String str) {
+    public String floatFormat2Digit(String str) {
         return String.format("%.02f", str);
     }
 
-    public static float discount(float rs, float tax) {
+    public float discount(float rs, float tax) {
         return ((rs * tax) / 100);
     }
 
-    public static float roundValue(float value) {
+    public float roundValue(float value) {
         return Math.round(value);
     }
 
-    public static boolean isPackageExist(Context context, String pckName) {
+    public boolean isPackageExist(Context context, String pckName) {
         try {
             PackageInfo pckInfo = context.getPackageManager().getPackageInfo(pckName, 0);
             if (pckInfo != null) {
@@ -470,7 +482,7 @@ public class AppUtils {
         return false;
     }
 
-    public static void uninstallApk(Context context, String packageName) {
+    public void uninstallApk(Context context, String packageName) {
         if (isPackageExist(context, packageName)) {
             Uri packageURI = Uri.parse("package:" + packageName);
             Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
@@ -478,11 +490,27 @@ public class AppUtils {
         }
     }
 
-    public static void requestParam(HashMap<String, String> hashMap) {
+    public void requestParam(HashMap<String, String> hashMap) {
         Iterator it = hashMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             Logging.i(pair.getKey() + " - " + pair.getValue());
         }
+    }
+
+    private String stringFromByte(InputStream inputStream) {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            while (true) {
+                String str = bufferedReader.readLine();
+                if (str == null)
+                    break;
+                stringBuilder.append(str);
+            }
+        } catch (Exception localIOException) {
+            localIOException.printStackTrace();
+        }
+        return inputStream.toString();
     }
 }

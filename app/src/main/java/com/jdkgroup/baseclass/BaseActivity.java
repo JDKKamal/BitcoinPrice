@@ -75,6 +75,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     //https://devhub.io
@@ -430,7 +432,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isInternet()) {
             startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
         } else {
-            AppUtils.showToast(getActivity(), getString(R.string.no_internet_message));
+            appUtilsInstance().showToast(getActivity(), getString(R.string.no_internet_message));
         }
     }
 
@@ -438,7 +440,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
-            AppUtils.showToast(getActivity(), getActivity().getString(R.string.no_internet_message));
+            appUtilsInstance().showToast(getActivity(), getActivity().getString(R.string.no_internet_message));
             return false;
         }
         return true;

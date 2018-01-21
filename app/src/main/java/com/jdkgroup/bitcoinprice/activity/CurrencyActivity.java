@@ -42,6 +42,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public class CurrencyActivity extends SimpleMVPActivity<CurrencyPresenter, CurrencyView> implements CurrencyView, OnChartValueSelectedListener {
 
     @BindView(R.id.pieChart)
@@ -230,7 +232,7 @@ public class CurrencyActivity extends SimpleMVPActivity<CurrencyPresenter, Curre
             }, listCurrencyDetail);
             sd.show();
         } else {
-            AppUtils.showToastById(this, R.string.no_data);
+            appUtilsInstance().showToastById(this, R.string.no_data);
         }
     }
 

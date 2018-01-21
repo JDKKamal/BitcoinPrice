@@ -14,6 +14,7 @@ import com.jdkgroup.utils.AppUtils;
 import com.jdkgroup.utils.Logging;
 import com.jdkgroup.view.SplashScreenView;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
 import static com.jdkgroup.utils.Preference.preferenceInstance;
 
 public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, SplashScreenView> implements SplashScreenView, RestConstant {
@@ -43,7 +44,7 @@ public class SplashScreen extends SimpleMVPActivity<SplashScreenPresenter, Splas
             //TODO SPLASH SCREEN TIME OUT
             getPresenter().getSplashScreenWait(SPLASH_TIME_OUT);
         } else {
-            AppUtils.startActivity(getActivity(), MVPDemo.class);
+            appUtilsInstance().startActivity(getActivity(), MVPDemo.class);
             finish();
         }
     }

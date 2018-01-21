@@ -61,6 +61,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.jdkgroup.utils.AppUtils.appUtilsInstance;
+
 public abstract class BaseFragment extends Fragment {
 
     private Dialog progressDialog;
@@ -327,7 +329,7 @@ public abstract class BaseFragment extends Fragment {
         if (isInternet()) {
             startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
         } else {
-            AppUtils.showToast(getActivity(), getString(R.string.no_internet_message));
+            appUtilsInstance().showToast(getActivity(), getString(R.string.no_internet_message));
         }
     }
 
@@ -335,7 +337,7 @@ public abstract class BaseFragment extends Fragment {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo != null && networkInfo.isConnectedOrConnecting())) {
-            AppUtils.showToast(getActivity(), getActivity().getString(R.string.no_internet_message));
+            appUtilsInstance().showToast(getActivity(), getActivity().getString(R.string.no_internet_message));
             return false;
         }
         return true;

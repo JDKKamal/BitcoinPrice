@@ -35,7 +35,7 @@ ext{
     minSdkVersion = 19
     targetSdkVersion = 27
 
-    constraintLibVersion = "1.0.2"
+    constraintLibVersion = '1.1.0-beta4'
     testRunnerLibVersion = "1.0.1"
     tesEspressoLibVersion = "3.0.1"
     supportLibVersion = "27.0.2"
@@ -51,7 +51,7 @@ ext{
     sdpLibVersion = "1.0.4"
     calligraphyLibVersion = "2.3.0"
 
-    rxjavaLibVersion = "2.1.6"
+    rxjavaLibVersion = "2.1.8"
     rxandroidLibVersion = "2.0.1"
     okhttp3interceptorLibVersion = "3.9.1"
 
